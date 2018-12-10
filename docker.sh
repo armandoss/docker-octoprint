@@ -163,7 +163,8 @@ setup_dependencies() {
 
   sudo apt update -y
   # sudo apt install realpath python python-pip -y
-  sudo apt install --only-upgrade docker-ce -y
+  #sudo apt install --only-upgrade docker-ce -y
+  sudo apt-get install docker-ce=18.02.0~ce-0~ubuntu
   # sudo pip install docker-compose || true
 
   docker info
