@@ -56,10 +56,7 @@ RUN make
 RUN make install
 
 
-RUN apt-get remove --yes --purge make build-essential
 
-RUN apt-get clean --yes
-RUN apt-get autoremove --yes
 
 # Install OctoPrint
 WORKDIR /OctoPrint-${BUILD_VERSION}
@@ -78,5 +75,10 @@ ENV MJPEG_STREAMER_AUTOSTART true
 ENV STREAMER_FLAGS -y -n -r 640x480
 
 EXPOSE 80
+
+RUN apt-get remove --yes --purge make build-essential
+
+RUN apt-get clean --yes
+RUN apt-get autoremove --yes
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
