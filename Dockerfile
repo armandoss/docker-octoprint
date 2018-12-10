@@ -70,7 +70,7 @@ VOLUME /data
 WORKDIR /data
 
 COPY haproxy.cfg /etc/haproxy/haproxy.cfg
-#COPY pip.conf /root/.pip/pip.conf
+# COPY pip.conf /root/.pip/pip.conf
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 
 ENV CAMERA_DEV /dev/video0
