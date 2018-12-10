@@ -6,7 +6,22 @@ FROM $arch/python:2.7-slim as build
 
 COPY --from=qemu /qemu-arm /usr/bin/qemu-arm-static
 
+# Label
+LABEL \
+    maintainer1="Reloxx <reloxx@interia.pl>" \
+    org.label-schema.build-date=${BUILD_DATE} \
+    org.label-schema.license="GNU" \
+    org.label-schema.name="OctoPrint Docker" \
+    org.label-schema.version=${BUILD_VERSION} \
+    org.label-schema.description="OctoPrint Docker" \
+    org.label-schema.url="https://github.com/reloxx13/docker-octoprint" \
+    org.label-schema.usage="https://github.com/reloxx13/docker-octoprint/blob/master/README.md" \
+    org.label-schema.vcs-ref=${BUILD_REF} \
+    org.label-schema.vcs-url="https://github.com/reloxx13/docker-octoprint"
+	
+	
 ARG version
+
 
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
