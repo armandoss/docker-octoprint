@@ -27,7 +27,7 @@ LABEL \
     org.label-schema.vcs-url="https://github.com/reloxx13/docker-octoprint"
 	
 # Install dependencies
-RUN apt-get update
+RUN apt update
   
 RUN apt-get install -y --no-install-recommends avrdude
 RUN apt-get install -y --no-install-recommends git
