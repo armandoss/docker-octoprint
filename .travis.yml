@@ -24,7 +24,7 @@ script:
     - ./docker.sh build
     # Test Docker images
     - ./docker.sh test
-	
+
     # Push Docker images to Docker Hub
     # Docker Login
     - docker login -u=reloxx13 -p="$DOCKER_PASSWORD"
