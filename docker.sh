@@ -39,9 +39,9 @@ docker_prepare() {
 
 docker_build() {
     echo "DOCKER BUILD: Build all docker images."
-	- docker build --tag ${DOCKER_REPO}:${BUILD_VERSION}-amd64 --build-arg BUILD_REF=${TRAVIS_COMMIT} --build-arg BUILD_ARCH=amd64 --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg QEMU_ARCH=hypriot/qemu-register .
+	docker build --tag ${DOCKER_REPO}:${BUILD_VERSION}-amd64 --build-arg BUILD_REF=${TRAVIS_COMMIT} --build-arg BUILD_ARCH=amd64 --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg QEMU_ARCH=hypriot/qemu-register .
 	
-	- docker build --tag ${DOCKER_REPO}:${BUILD_VERSION}-arm32v7 --build-arg BUILD_REF=${TRAVIS_COMMIT} --build-arg BUILD_ARCH=arm32v7 --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg QEMU_ARCH=hypriot/qemu-register .
+	docker build --tag ${DOCKER_REPO}:${BUILD_VERSION}-arm32v7 --build-arg BUILD_REF=${TRAVIS_COMMIT} --build-arg BUILD_ARCH=arm32v7 --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg QEMU_ARCH=hypriot/qemu-register .
 	
 }
 
