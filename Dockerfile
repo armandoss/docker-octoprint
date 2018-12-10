@@ -30,8 +30,6 @@ LABEL \
 RUN apt-get update
   
 RUN apt-get install -y --no-install-recommends avrdude
-RUN apt-get install -y --no-install-recommends build-essential
-RUN apt-get install -y --no-install-recommends cmake
 RUN apt-get install -y --no-install-recommends git
 RUN apt-get install -y --no-install-recommends haproxy
 RUN apt-get install -y --no-install-recommends imagemagick
@@ -46,6 +44,10 @@ RUN apt-get install -y --no-install-recommends supervisor
 RUN apt-get install -y --no-install-recommends unzip
 RUN apt-get install -y --no-install-recommends wget
 RUN apt-get install -y --no-install-recommends zlib1g-dev
+
+
+RUN apt-get install -y --no-install-recommends build-essential
+RUN apt-get install -y --no-install-recommends cmake
 
 # Download packages
 RUN wget -vO- https://github.com/foosel/OctoPrint/archive/${BUILD_VERSION}.tar.gz | tar xz
