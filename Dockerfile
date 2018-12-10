@@ -49,8 +49,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   zlib1g-dev
 
 # Download packages
-RUN wget -qO- https://github.com/foosel/OctoPrint/archive/${BUILD_VERSION}.tar.gz | tar xz
-RUN wget -qO- https://github.com/jacksonliam/mjpg-streamer/archive/master.tar.gz | tar xz
+RUN wget -vO- https://github.com/foosel/OctoPrint/archive/${BUILD_VERSION}.tar.gz | tar xz
+RUN wget -vO- https://github.com/jacksonliam/mjpg-streamer/archive/master.tar.gz | tar xz
 
 # Install mjpg-streamer
 WORKDIR /mjpg-streamer-master/mjpg-streamer-experimental
