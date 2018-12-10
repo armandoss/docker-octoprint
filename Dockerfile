@@ -27,23 +27,25 @@ LABEL \
     org.label-schema.vcs-url="https://github.com/reloxx13/docker-octoprint"
 	
 # Install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  avrdude \
-  build-essential \
-  cmake \
-  git \
-  haproxy \
-  imagemagick \
-  libav-tools \
-  libjpeg-dev \
-  libjpeg62-turbo \
-  libprotobuf-dev \
-  libv4l-dev \
-  psmisc \
-  supervisor \
-  unzip \
-  wget \
-  zlib1g-dev
+RUN apt-get update
+  
+RUN apt-get install -y --no-install-recommends avrdude
+RUN apt-get install -y --no-install-recommends build-essential
+RUN apt-get install -y --no-install-recommends cmake
+RUN apt-get install -y --no-install-recommends git
+RUN apt-get install -y --no-install-recommends haproxy
+RUN apt-get install -y --no-install-recommends imagemagick
+RUN apt-get install -y --no-install-recommends libav-tools
+RUN apt-get install -y --no-install-recommends v4l-utils
+RUN apt-get install -y --no-install-recommends libjpeg-dev
+RUN apt-get install -y --no-install-recommends libjpeg62-turbo
+RUN apt-get install -y --no-install-recommends libprotobuf-dev
+RUN apt-get install -y --no-install-recommends libv4l-dev
+RUN apt-get install -y --no-install-recommends psmisc
+RUN apt-get install -y --no-install-recommends supervisor
+RUN apt-get install -y --no-install-recommends unzip
+RUN apt-get install -y --no-install-recommends wget
+RUN apt-get install -y --no-install-recommends zlib1g-dev
 
 # Download packages
 RUN wget -vO- https://github.com/foosel/OctoPrint/archive/${BUILD_VERSION}.tar.gz | tar xz
