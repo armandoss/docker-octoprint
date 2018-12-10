@@ -85,8 +85,13 @@ docker_manifest_list() {
     docker_manifest_list_version
     # if build is not a beta then create and push manifest lastest
     if [[ ${BUILD_VERSION} != *"RC"* ]]; then
-        echo "DOCKER MANIFEST: Create and Push docker manifest lists LATEST."
-        docker_manifest_list_latest
+		if [[ ${BUILD_VERSION} == "master" ]]; then
+			echo "DOCKER MANIFEST: Create and Push docker manifest lists DEV."
+			docker_manifest_list_dev
+		else
+			echo "DOCKER MANIFEST: Create and Push docker manifest lists LATEST."
+			docker_manifest_list_latest
+		fi
 	else
         echo "DOCKER MANIFEST: Create and Push docker manifest lists BETA."
         docker_manifest_list_beta
@@ -135,6 +140,21 @@ docker_manifest_list_beta() {
 
   # Manifest Push BUILD_VERSION
   docker manifest push $DOCKER_REPO:beta
+}
+
+
+docker_manifest_list_dev() {
+  # Manifest Create dev
+  echo "DOCKER MANIFEST: Create and Push docker manifest list - $DOCKER_REPO:dev."
+  docker manifest create $DOCKER_REPO:dev \
+      $DOCKER_REPO:$BUILD_VERSION-amd64 \
+      $DOCKER_REPO:$BUILD_VERSION-arm32v7
+
+  # Manifest Annotate BUILD_VERSION
+  docker manifest annotate $DOCKER_REPO:dev $DOCKER_REPO:$BUILD_VERSION-arm32v7 --os linux --arch arm --variant v6
+
+  # Manifest Push BUILD_VERSION
+  docker manifest push $DOCKER_REPO:dev
 }
 
 docker_manifest_list_version_os_arch() {
