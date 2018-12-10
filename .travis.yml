@@ -1,46 +1,40 @@
-before_install:
-  - sudo apt-get install docker-ce=18.02.0~ce-0~ubuntu
-  - mkdir ~/.docker && echo '{ "experimental":"enabled" }' > ~/.docker/config.json
-  - docker --version
+sudo: 'required'
 
+services:
+  - 'docker'
+  
 language: bash
 
+
+install: true
+
 env:
-  matrix:
-    - ARCH=amd64
-    - ARCH=arm32v7
+  global:
+    - DOCKER_REPO=reloxx13/octoprint
 
-stages:
-  - name: test
-    if: tag IS present OR branch = master
-  - name: push
-    if: tag IS present OR branch = master
 
+
+before_script:
+  - if [ ! -z "$TRAVIS_TAG" ]; then export BUILD_VERSION=$TRAVIS_TAG; else export BUILD_VERSION=$TRAVIS_BRANCH; fi
+  
+  
 script:
-  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  - docker build -t "reloxx13/octoprint:$TRAVIS_BRANCH-$ARCH" --build-arg "arch=$ARCH" --build-arg "version=$TRAVIS_BRANCH" .
-  - docker login -u=reloxx13 -p="$DOCKER_PASSWORD"
-  - docker push "reloxx13/octoprint:$TRAVIS_BRANCH-$ARCH"
 
-jobs:
-  include:
-    - stage: push
-      script:
-        - docker login -u=reloxx13 -p="$DOCKER_PASSWORD"
-        - docker pull "reloxx13/octoprint:$TRAVIS_BRANCH-amd64"
-        - docker pull "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7"
-        - >
-          docker manifest create "reloxx13/octoprint:$TRAVIS_BRANCH" "reloxx13/octoprint:$TRAVIS_BRANCH-amd64" "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7" &&
-          docker manifest annotate "reloxx13/octoprint:$TRAVIS_BRANCH" "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7" --os linux --arch arm --variant v6 &&
-          docker manifest push "reloxx13/octoprint:$TRAVIS_BRANCH"
-        - >
-          if [ -n "$TRAVIS_TAG" ]; then
-            docker tag "reloxx13/octoprint:$TRAVIS_BRANCH-amd64" reloxx13/octoprint:latest &&
-            docker push reloxx13/octoprint:latest
-          fi
-        - >
-          if [ -n "$TRAVIS_TAG" ]; then
-            docker manifest create "reloxx13/octoprint:latest" "reloxx13/octoprint:$TRAVIS_BRANCH-amd64" "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7" &&
-            docker manifest annotate "reloxx13/octoprint:latest" "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7" --os linux --arch arm --variant v6 &&
-            docker manifest push "reloxx13/octoprint:latest"
-          fi
+  # Build Docker images
+  - ./docker.sh build
+  # Test Docker images
+  - ./docker.sh test
+	
+  # Push Docker images to Docker Hub
+  # Docker Login
+  - docker login -u=reloxx13 -p="$DOCKER_PASSWORD"
+  # Tag all images
+  - ./docker.sh tag
+  # Push all images
+  - ./docker.sh push
+  # Create and push manifest list
+  - ./docker.sh manifest-list
+  # Docker Logout
+  - docker logout
+  
+  
