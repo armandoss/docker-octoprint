@@ -27,6 +27,7 @@ main() {
 }
 
 docker_prepare() {
+	
     # Prepare the machine before any code installation scripts
     setup_dependencies
 
