@@ -15,26 +15,26 @@ env:
 
 
 before_script:
-  - if [ ! -z "$TRAVIS_TAG" ]; then export BUILD_VERSION=$TRAVIS_TAG; else export BUILD_VERSION=$TRAVIS_BRANCH; fi
+    - if [ ! -z "$TRAVIS_TAG" ]; then export BUILD_VERSION=$TRAVIS_TAG; else export BUILD_VERSION=$TRAVIS_BRANCH; fi
   
   
 script:
 
-  # Build Docker images
-  - ./docker.sh build
-  # Test Docker images
-  - ./docker.sh test
+    # Build Docker images
+    - ./docker.sh build
+    # Test Docker images
+    - ./docker.sh test
 	
-  # Push Docker images to Docker Hub
-  # Docker Login
-  - docker login -u=reloxx13 -p="$DOCKER_PASSWORD"
-  # Tag all images
-  - ./docker.sh tag
-  # Push all images
-  - ./docker.sh push
-  # Create and push manifest list
-  - ./docker.sh manifest-list
-  # Docker Logout
-  - docker logout
+    # Push Docker images to Docker Hub
+    # Docker Login
+    - docker login -u=reloxx13 -p="$DOCKER_PASSWORD"
+    # Tag all images
+    - ./docker.sh tag
+    # Push all images
+    - ./docker.sh push
+    # Create and push manifest list
+    - ./docker.sh manifest-list
+    # Docker Logout
+    - docker logout
   
   
