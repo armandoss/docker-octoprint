@@ -59,10 +59,10 @@ RUN make
 RUN make install
 
 
-RUN apt-get remove --purge make build-essential
+RUN apt-get remove --yes --purge make build-essential
 
-RUN apt-get clean
-RUN apt-get autoremove
+RUN apt-get clean --yes
+RUN apt-get autoremove --yes
 
 # Install OctoPrint
 WORKDIR /OctoPrint-${BUILD_VERSION}
