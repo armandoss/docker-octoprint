@@ -1,8 +1,14 @@
-ARG arch
+# Build arguments
+
+ARG QEMU_ARCH
+ARG BUILD_ARCH
+ARG BUILD_DATE
+ARG BUILD_REF
+ARG BUILD_VERSION
 
 # Intermediate build container with arm support.
-FROM $QEMU_ARCH as qemu
-FROM $BUILD_ARCH/python:2.7-slim as build
+FROM ${QEMU_ARCH} as qemu
+FROM ${BUILD_ARCH}/python:2.7-slim as build
 
 COPY --from=qemu /qemu-arm /usr/bin/qemu-arm-static
 
@@ -20,7 +26,6 @@ LABEL \
     org.label-schema.vcs-url="https://github.com/reloxx13/docker-octoprint"
 	
 	
-ARG version
 
 
 # Install dependencies
