@@ -18,29 +18,29 @@ stages:
 
 script:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  - docker build -t "nunofgs/octoprint:$TRAVIS_BRANCH-$ARCH" --build-arg "arch=$ARCH" --build-arg "version=$TRAVIS_BRANCH" .
-  - docker login -u=nunofgs -p="$DOCKER_PASSWORD"
-  - docker push "nunofgs/octoprint:$TRAVIS_BRANCH-$ARCH"
+  - docker build -t "reloxx13/octoprint:$TRAVIS_BRANCH-$ARCH" --build-arg "arch=$ARCH" --build-arg "version=$TRAVIS_BRANCH" .
+  - docker login -u=reloxx13 -p="$DOCKER_PASSWORD"
+  - docker push "reloxx13/octoprint:$TRAVIS_BRANCH-$ARCH"
 
 jobs:
   include:
     - stage: push
       script:
-        - docker login -u=nunofgs -p="$DOCKER_PASSWORD"
-        - docker pull "nunofgs/octoprint:$TRAVIS_BRANCH-amd64"
-        - docker pull "nunofgs/octoprint:$TRAVIS_BRANCH-arm32v7"
+        - docker login -u=reloxx13 -p="$DOCKER_PASSWORD"
+        - docker pull "reloxx13/octoprint:$TRAVIS_BRANCH-amd64"
+        - docker pull "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7"
         - >
-          docker manifest create "nunofgs/octoprint:$TRAVIS_BRANCH" "nunofgs/octoprint:$TRAVIS_BRANCH-amd64" "nunofgs/octoprint:$TRAVIS_BRANCH-arm32v7" &&
-          docker manifest annotate "nunofgs/octoprint:$TRAVIS_BRANCH" "nunofgs/octoprint:$TRAVIS_BRANCH-arm32v7" --os linux --arch arm --variant v6 &&
-          docker manifest push "nunofgs/octoprint:$TRAVIS_BRANCH"
+          docker manifest create "reloxx13/octoprint:$TRAVIS_BRANCH" "reloxx13/octoprint:$TRAVIS_BRANCH-amd64" "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7" &&
+          docker manifest annotate "reloxx13/octoprint:$TRAVIS_BRANCH" "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7" --os linux --arch arm --variant v6 &&
+          docker manifest push "reloxx13/octoprint:$TRAVIS_BRANCH"
         - >
           if [ -n "$TRAVIS_TAG" ]; then
-            docker tag "nunofgs/octoprint:$TRAVIS_BRANCH-amd64" nunofgs/octoprint:latest &&
-            docker push nunofgs/octoprint:latest
+            docker tag "reloxx13/octoprint:$TRAVIS_BRANCH-amd64" reloxx13/octoprint:latest &&
+            docker push reloxx13/octoprint:latest
           fi
         - >
           if [ -n "$TRAVIS_TAG" ]; then
-            docker manifest create "nunofgs/octoprint:latest" "nunofgs/octoprint:$TRAVIS_BRANCH-amd64" "nunofgs/octoprint:$TRAVIS_BRANCH-arm32v7" &&
-            docker manifest annotate "nunofgs/octoprint:latest" "nunofgs/octoprint:$TRAVIS_BRANCH-arm32v7" --os linux --arch arm --variant v6 &&
-            docker manifest push "nunofgs/octoprint:latest"
+            docker manifest create "reloxx13/octoprint:latest" "reloxx13/octoprint:$TRAVIS_BRANCH-amd64" "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7" &&
+            docker manifest annotate "reloxx13/octoprint:latest" "reloxx13/octoprint:$TRAVIS_BRANCH-arm32v7" --os linux --arch arm --variant v6 &&
+            docker manifest push "reloxx13/octoprint:latest"
           fi
