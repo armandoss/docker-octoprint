@@ -84,7 +84,7 @@ docker_manifest_list() {
     echo "DOCKER MANIFEST: Create and Push docker manifest lists."
     docker_manifest_list_version
     # if build is not a beta then create and push manifest lastest
-    if [[ ${BUILD_VERSION} != *"RC"* ]]; then
+    if [[ ${BUILD_VERSION} != *"rc"* ]]; then
 		if [[ ${BUILD_VERSION} == "master" ]]; then
 			echo "DOCKER MANIFEST: Create and Push docker manifest lists DEV."
 			docker_manifest_list_dev
