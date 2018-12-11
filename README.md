@@ -1,21 +1,42 @@
-# OctoPrint
+# OctoPrint Docker Image
 
-[![build status][travis-image]][travis-url]
 
-This is a Dockerfile to set up [OctoPrint](http://octoprint.org/). It supports the following architectures automatically:
 
-- x86
+[![GitHub release](https://img.shields.io/github/release/reloxx13/docker-octoprint.svg)](https://GitHub.com/reloxx13/docker-octoprint/releases/) 
+[![Build Status](https://travis-ci.org/reloxx13/docker-octoprint.svg?branch=master)](https://travis-ci.org/reloxx13/docker-octoprint) 
+[![GitHub contributors](https://img.shields.io/github/contributors/reloxx13/docker-octoprint.svg)](https://GitHub.com/reloxx13/docker-octoprint/graphs/contributors/) 
+
+[![HitCount](http://hits.dwyl.io/reloxx13/docker-octoprint.svg)](http://hits.dwyl.io/reloxx13/docker-octoprint)
+[![GitHub stars](https://img.shields.io/github/stars/reloxx13/docker-octoprint.svg)](https://github.com/reloxx13/docker-octoprint/stargazers)
+[![DockerHub Star](https://img.shields.io/docker/stars/reloxx13/octoprint.svg)](https://hub.docker.com/r/reloxx13/octoprint/)
+[![GitHub forks](https://img.shields.io/github/forks/reloxx13/docker-octoprint.svg)](https://github.com/reloxx13/docker-octoprint/network)
+[![DockerHub Pull](https://img.shields.io/docker/pulls/reloxx13/octoprint.svg)](https://hub.docker.com/r/reloxx13/octoprint/)
+[![Github all releases](https://img.shields.io/github/downloads/reloxx13/docker-octoprint/total.svg?label=gh%20downloads)](https://GitHub.com/reloxx13/docker-octoprint/releases/) 
+
+[![GitHub license](https://img.shields.io/github/license/reloxx13/docker-octoprint.svg)](https://github.com/reloxx13/docker-octoprint/blob/master/LICENSE)
+
+
+This the Source Repo for the [OctoPrint](https://github.com/foosel/OctoPrint) Docker Image. 
+
+[Docker Hub](https://hub.docker.com/r/reloxx13/octoprint/)
+
+It supports the following architectures automatically:
+
+
 - arm32v6 (Raspberry Pi, etc.)
+- x86
 
-# Tags
+## Docker Tags
 
-- `1.3.9`, `latest` ([Dockerfile](https://github.com/nunofgs/docker-octoprint/blob/master/Dockerfile))
-- `1.3.8` ([Dockerfile](https://github.com/nunofgs/docker-octoprint/blob/master/Dockerfile))
-- `1.3.7` ([Dockerfile](https://github.com/nunofgs/docker-octoprint/blob/master/Dockerfile))
-- `1.3.6` ([Dockerfile](https://github.com/nunofgs/docker-octoprint/blob/master/Dockerfile))
-- `master` (_Automatically built daily from OctoPrint's `master` branch_)
+|Tag|Octoprint|
+|---|---------|
+|latest|Latest Stable|
+|beta|ReleaseCandidate|
+|dev|master|
 
-# Tested devices
+
+
+## Tested devices
 
 | Device              | Working? |
 | ------------------- | -------- |
@@ -23,17 +44,36 @@ This is a Dockerfile to set up [OctoPrint](http://octoprint.org/). It supports t
 | Raspberry Pi 3b+    | ✅        |
 | Raspberry Pi Zero W | ❌        |
 
-# Usage
+## Usage
 
+### Witout Webcam:
 ```shell
-$ docker run \
-  --device=/dev/video0 \
-  -p 80:80 \
-  -v /mnt/data:/data \
-  nunofgs/octoprint
+docker run -d  \
+  --restart=unless-stopped \
+  --name=OctoPrint \
+  -p 1337:80 \
+  --device=/dev/ttyUSB0:/dev/ttyUSB0 \
+  -v /home/pi/Docker/OctoPrint/data:/data \
+  reloxx13/octoprint:latest 
 ```
 
-# Environment Variables
+### With Webcam:
+```shell
+docker run -d  \
+  --restart=unless-stopped \
+  --name=OctoPrint \
+  -p 1337:80 \
+  --device=/dev/video0:/dev/video0 \
+  --device=/dev/ttyUSB0:/dev/ttyUSB0 \
+  -v /home/pi/Docker/OctoPrint/data:/data \
+  -e STREAMER_FLAGS="-y -n -r 1280x720 -f 10" \
+  reloxx13/octoprint:latest 
+```
+
+More about Webcams: [Webcams known to work](https://github.com/foosel/OctoPrint/wiki/Webcams-known-to-work)
+
+
+## Environment Variables
 
 | Variable                 | Description                    | Default Value      |
 | ------------------------ | ------------------------------ | ------------------ |
@@ -41,13 +81,14 @@ $ docker run \
 | MJPEG_STREAMER_AUTOSTART | Start the camera automatically | `true`             |
 | STREAMER_FLAGS           | Flags to pass to mjpg_streamer | `-y -n -r 640x480` |
 
-# CuraEngine integration
+
+## CuraEngine integration
 
 Cura engine integration was very outdated (using version `15.04.6`) and was removed.
 
 It will return once OctoPrint [supports python3](https://github.com/foosel/OctoPrint/pull/1416#issuecomment-371878648) (needed for the newest versions of cura engine).
 
-# Webcam integration
+## Webcam integration
 
 1. Bind the camera to the docker using --device=/dev/video0:/dev/videoX
 2. Optionally, change `STREAMER_FLAGS` to your preferred settings (ex: `-y -n -r 1280x720 -f 10`)
@@ -60,7 +101,7 @@ webcam:
   ffmpeg: /usr/bin/ffmpeg
 ```
 
-# Notes
+### Notes
 
 This image uses `supervisord` in order to launch 3 processes: _haproxy_, _octoprint_ and _mjpeg-streamer_.
 
@@ -79,13 +120,10 @@ system:
     name: Stop webcam
 ```
 
-# Credits
+### Credits
 
-Original credits go to https://bitbucket.org/a2z-team/docker-octoprint. I initially ported this to the raspberry pi 2 and later moved to a multiarch image.
+Forked from https://github.com/nunofgs/docker-octoprint
+Original credits go to https://bitbucket.org/a2z-team/docker-octoprint
 
-## License
 
-MIT
 
-[travis-image]: https://img.shields.io/travis/nunofgs/docker-octoprint.svg?style=flat-square
-[travis-url]: https://travis-ci.org/nunofgs/docker-octoprint
