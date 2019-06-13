@@ -75,7 +75,7 @@ COPY haproxy.cfg /etc/haproxy/haproxy.cfg
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 
 ENV CAMERA_DEV_1 /dev/video0
-ENV CAMERA_DEV_2 /dev/video1
+ENV CAMERA_DEV_2 /dev/video2
 
 ENV MJPEG_STREAMER_AUTOSTART_1 true
 ENV MJPEG_STREAMER_AUTOSTART_2 false

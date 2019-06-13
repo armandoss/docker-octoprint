@@ -78,7 +78,7 @@ More about Webcams: [Webcams known to work](https://github.com/foosel/OctoPrint/
 
 | Variable                   | Description                    | Default Value CAM 1     | Default Value CAM 2 |
 | -------------------------- | ------------------------------ | ----------------------- | ------------------- |
-| CAMERA_DEV_1, CAMERA_DEV_2 | The camera device node         | `/dev/video0`           | `/dev/video1`       |
+| CAMERA_DEV_1, CAMERA_DEV_2 | The camera device node         | `/dev/video0`           | `/dev/video2`       |
 | MJPEG_STREAMER_AUTOSTART_1, MJPEG_STREAMER_AUTOSTART_2 | Start the camera automatically | `true`  | `false` |
 | STREAMER_FLAGS_1, STREAMER_FLAGS_2 | Flags to pass to mjpg_streamer | `-y -n -r 640x480` | `-y -n -r 640x480` |
 
@@ -88,7 +88,7 @@ More about Webcams: [Webcams known to work](https://github.com/foosel/OctoPrint/
 ## Webcam integration
 
 1. Bind the camera to the docker using --device=/dev/video0:/dev/videoX
-2. Optionally, change `STREAMER_FLAGS` to your preferred settings (ex: `-y -n -r 1280x720 -f 10`)
+2. Optionally, change `STREAMER_FLAGS_1` to your preferred settings (ex: `-y -n -r 1280x720 -f 10`)
 3. Use the following settings in octoprint:
 
 ```yaml
@@ -97,6 +97,19 @@ webcam:
   snapshot: http://127.0.0.1:8080/?action=snapshot
   ffmpeg: /usr/bin/ffmpeg
 ```
+
+### Webcam Tips
+
+ v4l2-ctl --list-devices   
+ 
+ fswebcam -v --list-controls --device /dev/video2   
+ 
+ fswebcam -d /dev/video2 -r 640x480 test1.jpeg   
+ 
+ lsusb   
+    
+          BUS:DEVICE   
+ lsusb -s 001:007 -v | egrep "Width|Height"   
 
 ### Notes
 
