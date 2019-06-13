@@ -74,9 +74,14 @@ COPY haproxy.cfg /etc/haproxy/haproxy.cfg
 # COPY pip.conf /root/.pip/pip.conf
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 
-ENV CAMERA_DEV /dev/video0
-ENV MJPEG_STREAMER_AUTOSTART true
-ENV STREAMER_FLAGS -y -n -r 640x480
+ENV CAMERA_DEV_1 /dev/video0
+ENV CAMERA_DEV_2 /dev/video1
+
+ENV MJPEG_STREAMER_AUTOSTART_1 true
+ENV MJPEG_STREAMER_AUTOSTART_2 false
+
+ENV STREAMER_FLAGS_1 -y -n -r 640x480
+ENV STREAMER_FLAGS_2 -y -n -r 640x480
 
 EXPOSE 80
 

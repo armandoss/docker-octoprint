@@ -54,6 +54,7 @@ docker run -d  \
   -p 1337:80 \
   --device=/dev/ttyUSB0:/dev/ttyUSB0 \
   -v /home/pi/Docker/OctoPrint/data:/data \
+  -e CAMERA_DEV_1=false \
   reloxx13/octoprint:latest 
 ```
 
@@ -66,7 +67,7 @@ docker run -d  \
   --device=/dev/video0:/dev/video0 \
   --device=/dev/ttyUSB0:/dev/ttyUSB0 \
   -v /home/pi/Docker/OctoPrint/data:/data \
-  -e STREAMER_FLAGS="-y -n -r 1280x720 -f 10" \
+  -e STREAMER_FLAGS_1="-y -n -r 1280x720 -f 10" \
   reloxx13/octoprint:latest 
 ```
 
@@ -75,18 +76,14 @@ More about Webcams: [Webcams known to work](https://github.com/foosel/OctoPrint/
 
 ## Environment Variables
 
-| Variable                 | Description                    | Default Value      |
-| ------------------------ | ------------------------------ | ------------------ |
-| CAMERA_DEV               | The camera device node         | `/dev/video0`      |
-| MJPEG_STREAMER_AUTOSTART | Start the camera automatically | `true`             |
-| STREAMER_FLAGS           | Flags to pass to mjpg_streamer | `-y -n -r 640x480` |
+| Variable                   | Description                    | Default Value CAM 1     | Default Value CAM 2 |
+| -------------------------- | ------------------------------ | ----------------------- | ------------------- |
+| CAMERA_DEV_1, CAMERA_DEV_2 | The camera device node         | `/dev/video0`           | `/dev/video1`       |
+| MJPEG_STREAMER_AUTOSTART_1, MJPEG_STREAMER_AUTOSTART_2 | Start the camera automatically | `true`  | `false` |
+| STREAMER_FLAGS_1, STREAMER_FLAGS_2 | Flags to pass to mjpg_streamer | `-y -n -r 640x480` | `-y -n -r 640x480` |
 
 
-## CuraEngine integration
 
-Cura engine integration was very outdated (using version `15.04.6`) and was removed.
-
-It will return once OctoPrint [supports python3](https://github.com/foosel/OctoPrint/pull/1416#issuecomment-371878648) (needed for the newest versions of cura engine).
 
 ## Webcam integration
 
@@ -96,7 +93,7 @@ It will return once OctoPrint [supports python3](https://github.com/foosel/OctoP
 
 ```yaml
 webcam:
-  stream: /webcam/?action=stream
+  stream: /webcam1/?action=stream
   snapshot: http://127.0.0.1:8080/?action=snapshot
   ffmpeg: /usr/bin/ffmpeg
 ```
