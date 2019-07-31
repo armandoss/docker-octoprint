@@ -29,6 +29,10 @@ LABEL \
 # Install dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
   avrdude \
+  stm32flash \
+  libwxgtk3.0-dev libreadline-dev \
+  autoconf libusb-1.0-0-dev \
+  usbmount \
   build-essential \
   cmake \
   git \
